@@ -1,19 +1,22 @@
 import os
 
 import discord
-import dotenv
+from discord.ext import commands
+from discord import app_commands
 
 
-class MyClient(discord.Client):
-    async def on_ready(self):
-        print(f'Logged on as {self.user}!')
+bot = commands.Bot("!", intents=discord.Intents.default())
 
-    async def on_message(self, message):
-        print(f'Message from {message.author}: {message.content}')
+@bot.event
+async def on_ready():
+    try:
+        synced = await bot.tree.sync()
+    except Exception as e:
+        print(e)
 
+@bot.tree.command(name="echo", description="Echoes a message.")
+@app_commands.describe(message="The message to echo.")
+async def echo(interaction: discord.Interaction, message: str) -> None:
+    await interaction.response.send_message(message)
 
-intents = discord.Intents.default()
-intents.message_content = True
-
-client = MyClient(intents=intents)
-client.run(os.getenv("PRIZEPLAYER_TOKEN"))
+bot.run(token=os.getenv("PRIZEPLAYER_TOKEN"))
