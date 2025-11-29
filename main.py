@@ -4,8 +4,6 @@ import discord
 import dotenv
 
 
-dotenv.load_dotenv(".env")
-
 class MyClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
@@ -18,4 +16,4 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = MyClient(intents=intents)
-client.run(os.getenv("DISCORD_BOT_TOKEN"))
+client.run(os.getenv("PRIZEPLAYER_TOKEN"))
