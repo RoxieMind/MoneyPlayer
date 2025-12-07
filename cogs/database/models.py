@@ -36,5 +36,5 @@ engine = create_engine(sqlite_url)
 
 SQLModel.metadata.create_all(engine)
 
-def getSession():
+def getSession() -> Session:
     return Session(engine)
